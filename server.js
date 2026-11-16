@@ -4,12 +4,15 @@ const cowsay = require('cowsay');
 require('./config/db_mongo'); // Conexion con MongoDB
 
 // Middlewares
-const morgan = require('.middlewares/morgan.js');
-const error404 = require('.middlewares/error404.js'); 
+const morgan = require('./middlewares/morgan.js');
+const error404 = require('./middlewares/error404.js'); 
 
 // Rutas
-const providerRoutes = require('.routes/products.routes.js');
-const productsRoutes = require('.routes/providers.routes.js')
+const providerRoutes = require('./routes/providers.routes.js');
+const productsRoutes = require('./routes/products.routes.js')
+
+const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.json()); // Para leer el body en formato JSON
 app.use(morgan(':method :host :url :status :param[id] - :response-time ms :body'));
@@ -20,7 +23,7 @@ app.get('/', (req, res) => {
 });
 
 // Endpoints de la API
-app.use('/api/providers', providersRoutes);
+app.use('/api/providers', providerRoutes);
 app.use('/api/products', productsRoutes);
 
 // Middleware para rutas no encontradas (404)
